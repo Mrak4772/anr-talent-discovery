@@ -1,26 +1,37 @@
 import pandas as pd
-import sqlite3
+from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 
-# Connect to a sample SQLite database
-conn = sqlite3.connect("talent_data.db")
-df = pd.read_sql("SELECT * FROM artist_engagement", conn)
+def train_model():
+    # Load the data
+    df = pd.read_csv('data/talent_data.csv')
+    
+    # Features and Labels
+    X = df[['engagement_score']]
+    y = df['success_label']
+    
+    # Train-test split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    # Model training
+    model = RandomForestClassifier(n_estimators=100)
+    model.fit(X_train, y_train)
+    
+    # Predictions
+    predictions = model.predict(X_test)
+    accuracy = accuracy_score(y_test, predictions)
+    
+    print(f"Model Accuracy: {accuracy * 100:.2f}%")
+    
+    return model
 
-# Feature Engineering: Calculate engagement score
-df["engagement_score"] = df["streams"] * 0.4 + df["likes"] * 0.3 + df["shares"] * 0.2 + df["followers_growth"] * 0.1
-
-# Define success label
 def categorize_success(row):
-    return 1 if row["engagement_score"] > df["engagement_score"].median() else 0
+    # Dummy function to simulate how we categorize success based on engagement score
+    if row['engagement_score'] > 100:
+        return 1
+    else:
+        return 0
 
-df["success_label"] = df.apply(categorize_success, axis=1)
-
-# Train Model
-X = df[["engagement_score"]]
-y = df["success_label"]
-model = RandomForestClassifier()
-model.fit(X, y)
-
-# Export results
-df[["artist_id", "engagement_score", "success_label"]].to_csv("talent_scoring_results.csv", index=False)
-print("✅ Results saved to talent_scoring_results.csv")
+if __name__ == "__main__":
+    train_model()
