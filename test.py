@@ -14,4 +14,3 @@ def test_categorize_success():
     assert df["success_label"][0] == 1  # Engagement score 100 should be categorized as 1
     assert df["success_label"][1] == 0  # Engagement score 50 should be categorized as 0
     assert df["success_label"][2] == 1  # Engagement score 200 should be categorized as 1
-
