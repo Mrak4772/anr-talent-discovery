@@ -4,9 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from utils import categorize_success
 
-
 def train_model():
-    
     # Load the data
     df = pd.read_csv('data/talent_data.csv')
     
@@ -28,13 +26,6 @@ def train_model():
     print(f"Model Accuracy: {accuracy * 100:.2f}%")
     
     return model
-
-def categorize_success(row):
-    # Dummy function to simulate how we categorize success based on engagement score
-    if row['engagement_score'] > 100:
-        return 1
-    else:
-        return 0
 
 if __name__ == "__main__":
     train_model()
