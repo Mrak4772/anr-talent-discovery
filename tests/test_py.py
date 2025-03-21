@@ -2,6 +2,8 @@ import pytest
 import pandas as pd
 from main import categorize_success
 
+from src.main import categorize_success
+
 def test_categorize_success():
     # Sample data
     df = pd.DataFrame({"engagement_score": [100, 50, 200, 75, 150]})
