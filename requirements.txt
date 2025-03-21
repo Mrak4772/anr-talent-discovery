@@ -1,3 +1,6 @@
 pandas
 scikit-learn
 pytest
+matplotlib
+seaborn
+plotly  # If you want interactive plots
